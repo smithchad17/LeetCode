@@ -9,14 +9,12 @@ namespace LeetCode
 
         static void Main(string[] args)
         {
-            ListNode l1 = new ListNode(2, new ListNode(4, new Models.ListNode(3)));
-            ListNode l2 = new ListNode(5, new ListNode(6, new Models.ListNode(4)));
 
+            string s = "abcabcbb";
 
-            ListNode answer = ProblemLibrary.AddTwoNumbers(l1, l2);
+            var answer = ProblemLibrary.LengthOfLongestSubstring(s);
 
-            
-
+            Console.WriteLine(answer);
 
         }
     }
