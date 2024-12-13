@@ -10,9 +10,10 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            string s = "abcabcbb";
+            int[] nums1 = { 1, 2};
+            int[] nums2 = { 3, 4};
 
-            var answer = ProblemLibrary.LengthOfLongestSubstring(s);
+            var answer = ProblemLibrary.FindMedianSortedArrays(nums1, nums2);
 
             Console.WriteLine(answer);
 
