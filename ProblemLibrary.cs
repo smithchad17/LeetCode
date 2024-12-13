@@ -218,4 +218,9 @@ public static class ProblemLibrary
         }
 
     }
+
+    public static string LongestPalindrome(string s)
+    {
+        return "";
+    }
 }
