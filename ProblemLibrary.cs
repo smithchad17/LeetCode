@@ -222,119 +222,135 @@ public static class ProblemLibrary
 
     public static string LongestPalindrome(string s)
     {
-        bool moveTarget = false;
-        bool canExit = false;
-        bool good = true;
-        int before = 0;
-        int target = 1;
-        int evenTarget;
-        int after = 2;
-        int[] palIndexes = new int[2]; //hold the beginning and end indexes for the palindrome
-        int palLength = 0;
-        string pal = "";
+        string answer = "";
+        int left = 0;
+        int right = 1;
+        int target = 0;
+        bool skipLoop = false;
+        bool checkDoubles = true;
+        bool checkOdds = false;
+        int evenLength = 0;
+        int oddLength = 0;
+        int[] subIndexes = new int[2];
 
-        if (s.Length ==1)
+        //Check if string is only one character
+        if (s.Length == 1)
         {
-            good = false;
-            pal = s[0].ToString();
+            answer = s[0].ToString();
+            skipLoop = true;
         }
-        else if (s.Length == 2 && (s[0] == s[1])){
-            good = false;
-            pal = s[0].ToString() + s[1].ToString();
-        }
-        else if (s.Length == 2 && (s[0] != s[1]))
+        else if (s.Length == 2)
         {
-            good = false;
-            pal = s[0].ToString();
+            if (s[0] == s[1]) { answer = s[0].ToString() + s[1].ToString(); }
+            else { answer = s[0].ToString(); }
+            skipLoop = true;
         }
 
-        while (good)
+        while (!skipLoop)
         {
-            //Check if palindrome is a even or odd string
-            if (s[before] == s[after] && s.Length > 2)
+            while (checkDoubles)
             {
-                while (!canExit)
+                while (s[left] == s[right])
                 {
-                    palIndexes[0] = before;
-                    palIndexes[1] = after;
-                    palLength = after - before;
-                    if (before == 0 || after == s.Length - 1)
+                    if (right - left > evenLength)
                     {
-                        moveTarget = true;
-                        canExit = true;
+                        evenLength = right - left;
+                        subIndexes[0] = left;
+                        subIndexes[1] = right;
+                    }
 
+                    if (evenLength != s.Length - 1)
+                    {
+                        if (left != 0) { left--; } //extend left if possible
+                        if (right != s.Length - 1) { right++; } //extend right if possible
                     }
                     else
                     {
-                        before--;
-                        after++;
-                        if (s[before] != s[after])
-                        {
-                            canExit = true;
-                            moveTarget = true;
-                        }
+                        checkOdds = false;
+                        checkDoubles = false;
+                        break;
                     }
                 }
-                before = target - 1;
-                after = target + 1;
-                canExit = false;
-            }
-            else if (s[before] == s[target])
-            {
-                evenTarget = target;
-                while (!canExit)
+                if (right != s.Length - 1)
                 {
-                    palIndexes[0] = before;
-                    palIndexes[1] = evenTarget;
-                    palLength = evenTarget - before;
-                    if (before == 0 || evenTarget == s.Length - 1)
+                    target++;
+                    left = target;
+                    right = left + 1;
+                }
+                else
+                {
+                    checkDoubles = false;
+                    checkOdds = true;
+                }
+            }
+            //reset index variables. If doubles found a palindrome of length 5. No need
+            //to start at the beginning since anything found would be less than 5
+            if (evenLength / 2 > 0)
+            {
+                target = evenLength / 2;
+                left = target - 1;
+                right = target + 1;
+            }
+            else
+            {
+                left = 0;
+                target = 1;
+                right = 2;
+            }
+
+            while (checkOdds)
+            {
+                if (s[left] == s[right])
+                {
+                    if (right - left >= oddLength)
                     {
-                        moveTarget = true;
-                        canExit = true;
+                        oddLength = right - left;
+                        if (oddLength >= evenLength)
+                        {
+                            subIndexes[0] = left;
+                            subIndexes[1] = right;
+                        }
+                    }
+                    if (!(left == 0 || right == s.Length - 1))
+                    {
+                        left--;
+                        right++;
+                    }
+                    else if (oddLength == s.Length - 1)
+                    {
+                        checkOdds = false;
+                        skipLoop = true;
+                    }
+                    else if (right == s.Length - 1)
+                    {
+                        checkOdds = false;
+                        skipLoop = true;
                     }
                     else
                     {
-                        before--;
-                        evenTarget++;
-                        if (s[before] != s[evenTarget])
-                        {
-                            canExit = true;
-                            moveTarget = true;
-                        }
+                        target++;
+                        left = target - 1;
+                        right = target + 1;
                     }
                 }
-            }
-            else 
-            {
-                target++;
-                before = target - 1;
-                after = target + 1;
-                moveTarget = false;
-                canExit = false;
-            }
-
-            if (moveTarget)
-            {
-                target++;
-                before = target - 1;
-                after = target + 1;
-                moveTarget = false;
-                canExit = false;
+                else if (target != s.Length - 2)
+                {
+                    target++;
+                    left = target - 1;
+                    right = target + 1;
+                }
+                else
+                {
+                    checkOdds = false;
+                    skipLoop = true;
+                }
             }
 
-            pal = s.Substring(palIndexes[0], palLength + 1);
-            if (after >= s.Length) { break; }
+            if (evenLength >= oddLength) { return s.Substring(subIndexes[0], evenLength + 1); }
+            else { return s.Substring(subIndexes[0], oddLength + 1); }
+        }
+        return answer;
 
-        }
-
-        if (good)
-        {
-            return pal;
-        }
-        else
-        {
-            return pal;
-        }
 
     }
 }
