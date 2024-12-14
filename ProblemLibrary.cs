@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Formats.Tar;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using LeetCode.Models;
@@ -165,13 +166,13 @@ public static class ProblemLibrary
 
         if ((num1Length + num2Length) % 2 == 0)
         {
-            ceiling = (int)Math.Ceiling(median)+1;
+            ceiling = (int)Math.Ceiling(median) + 1;
         }
         else
         {
             ceiling = (int)Math.Ceiling(median);
         }
-            
+
         int[] mainArray = new int[ceiling];
         int a = 0;
         int b = 0;
@@ -210,17 +211,130 @@ public static class ProblemLibrary
 
         if ((num1Length + num2Length) % 2 == 0)
         {
-            return ((mainArray[ceiling - 1] + mainArray[ceiling-2]) / 2.0);
+            return ((mainArray[ceiling - 1] + mainArray[ceiling - 2]) / 2.0);
         }
         else
         {
-            return mainArray[ceiling-1];
+            return mainArray[ceiling - 1];
         }
 
     }
 
     public static string LongestPalindrome(string s)
     {
-        return "";
+        bool moveTarget = false;
+        bool canExit = false;
+        bool good = true;
+        int before = 0;
+        int target = 1;
+        int evenTarget;
+        int after = 2;
+        int[] palIndexes = new int[2]; //hold the beginning and end indexes for the palindrome
+        int palLength = 0;
+        string pal = "";
+
+        if (s.Length ==1)
+        {
+            good = false;
+            pal = s[0].ToString();
+        }
+        else if (s.Length == 2 && (s[0] == s[1])){
+            good = false;
+            pal = s[0].ToString() + s[1].ToString();
+        }
+        else if (s.Length == 2 && (s[0] != s[1]))
+        {
+            good = false;
+            pal = s[0].ToString();
+        }
+
+        while (good)
+        {
+            //Check if palindrome is a even or odd string
+            if (s[before] == s[after] && s.Length > 2)
+            {
+                while (!canExit)
+                {
+                    palIndexes[0] = before;
+                    palIndexes[1] = after;
+                    palLength = after - before;
+                    if (before == 0 || after == s.Length - 1)
+                    {
+                        moveTarget = true;
+                        canExit = true;
+
+                    }
+                    else
+                    {
+                        before--;
+                        after++;
+                        if (s[before] != s[after])
+                        {
+                            canExit = true;
+                            moveTarget = true;
+                        }
+                    }
+                }
+                before = target - 1;
+                after = target + 1;
+                canExit = false;
+            }
+            else if (s[before] == s[target])
+            {
+                evenTarget = target;
+                while (!canExit)
+                {
+                    palIndexes[0] = before;
+                    palIndexes[1] = evenTarget;
+                    palLength = evenTarget - before;
+                    if (before == 0 || evenTarget == s.Length - 1)
+                    {
+                        moveTarget = true;
+                        canExit = true;
+                    }
+                    else
+                    {
+                        before--;
+                        evenTarget++;
+                        if (s[before] != s[evenTarget])
+                        {
+                            canExit = true;
+                            moveTarget = true;
+                        }
+                    }
+                }
+            }
+            else 
+            {
+                target++;
+                before = target - 1;
+                after = target + 1;
+                moveTarget = false;
+                canExit = false;
+            }
+
+            if (moveTarget)
+            {
+                target++;
+                before = target - 1;
+                after = target + 1;
+                moveTarget = false;
+                canExit = false;
+            }
+
+            pal = s.Substring(palIndexes[0], palLength + 1);
+            if (after >= s.Length) { break; }
+
+        }
+
+        if (good)
+        {
+            return pal;
+        }
+        else
+        {
+            return pal;
+        }
+
     }
 }

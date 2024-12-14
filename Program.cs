@@ -10,10 +10,9 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            int[] nums1 = { 1, 2};
-            int[] nums2 = { 3, 4};
+            string s = "cbbd";
 
-            var answer = ProblemLibrary.FindMedianSortedArrays(nums1, nums2);
+            var answer = ProblemLibrary.LongestPalindrome(s);
 
             Console.WriteLine(answer);
 
