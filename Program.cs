@@ -11,10 +11,10 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            //string s = "PAYPALISHIRING";
-            //int numRows = 3;
+            string s = "PAYPALISHIRING";
+            int numRows = 3;
             
-            var answer = _1_TwoSum.TwoSum(s,numRows);
+            var answer = _6_Convert.Convert(s,numRows);
 
             Console.WriteLine(answer);
 
