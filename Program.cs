@@ -11,7 +11,7 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            string s = "PAYPALISHIRING";
+            string s = "ABCD";
             int numRows = 3;
             
             var answer = _6_Convert.Convert(s,numRows);
