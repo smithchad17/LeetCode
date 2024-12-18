@@ -1,6 +1,7 @@
 ﻿
 using LeetCode.Models;
 using LeetCode.Problems;
+using LeetCode.Problems1_25;
 
 namespace LeetCode
 {
@@ -11,10 +12,9 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            string s = "ABCD";
-            int numRows = 3;
+            int x = 123;
             
-            var answer = _6_Convert.Convert(s,numRows);
+            var answer = _7_ReverseInteger.Reverse(x);
 
             Console.WriteLine(answer);
 
