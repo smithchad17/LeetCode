@@ -12,9 +12,9 @@ namespace LeetCode
         static void Main(string[] args)
         {
 
-            int x = 123;
+            string s = "21474836460";
             
-            var answer = _7_ReverseInteger.Reverse(x);
+            var answer = _8_StringToInteger.MyAtoi(s);
 
             Console.WriteLine(answer);
 
